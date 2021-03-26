@@ -15,23 +15,26 @@ URL : https://www.acmicpc.net/problem/4153
 
 """
 def solution():
-    input_ = input().split(" ")
+    input_ = input().split(" ") # 공백으로 분리
     a, b, c = int(input_[0]), int(input_[1]), int(input_[2])
-    if a==0 and b==0 and c==0: return False
+    if a==0 and b==0 and c==0: return False # 모두 0이면 종료
 
-    numbers = [a, b, c]
+    numbers = [a, b, c] # 입력값 리스트 생성
     long_side= max(numbers) # 제일 긴 변 길이
     numbers.remove(long_side) # 제일 긴 변 제거
     
+    # 가장 긴 변 보다 나머지 두 변의 길이 합이 작으면
     if numbers[0] + numbers[1] <= long_side : 
         print("wrong")
         return True
     
+    # 직각 삼각형 조건 만족할 경우
     if long_side **2 == (numbers[0]**2 + numbers[1]**2) :print("right")
     else: print("wrong")
         
     return True
 
 if __name__ == "__main__":
+    # False 반환까지 반복
     while solution(): pass
     
