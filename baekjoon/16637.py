@@ -4,6 +4,7 @@ Problems : https://www.acmicpc.net/problem/16637
 """
 
 def solution(number, line):
+    # 전체 계산
     def calculation(lines): # 연산 함수
         # input : 계산식 (string)
         # output : 결과값 (int)
@@ -19,11 +20,9 @@ def solution(number, line):
                     line.append( nums ) #리스트에 숫자 추가
                 line.append( i ) #리스트에 연산자 추가
                 nums = "" #숫자 초기화
-            else:
-                nums += i #연산자 추가
+            else: nums += i #연산자 추가
         line.append(nums) #마지막 숫자 추가
         
-
         result = int(line[0]) # 계산값 처음에 첫번째 숫자 선언
         for index, c in enumerate(line[1:]):
             if c.isdigit(): # 숫자일 경우
@@ -39,8 +38,12 @@ def solution(number, line):
         
         return result
     
+    # 연산자 인덱스를 통해 새로운 계산식 생성
     def newLine_fromIndex(index, line):
-        # 연산자 인덱스를 입력하면 계산해서 새로운 계산식 반환
+        # input
+        #   - index : 연산자 위치 (int)
+        #   - line : 계산식 (string)
+        # output : 연산자 계산한 새로운 계산식 (string) 
         
         a, b, result = int(line[index-1]), int(line[index+1]), 0
         
@@ -61,9 +64,16 @@ def solution(number, line):
 
         # 결과 계산식 맨 앞이 음수일 경우 -> 맨 앞에 0 붙여줌
         if new_line[0] == "-" : new_line = "0"+new_line
+
         return new_line
 
+    # 조합 생성
     def permute(array, r): # 중복 제거 조합 계산
+        # input
+        #   - array : 숫자 리스트 (list)
+        #   - r : 조합 개수 (int)
+        # output : 조합 tuple 리스트 (list)
+
         for i in range(len(array)):
             if r == 1: # 종료 조건
                 yield [array[i]]
@@ -71,10 +81,13 @@ def solution(number, line):
                 for next in permute(array[i+1:], r-1):
                     yield [array[i]] + next
 
+    # 우선 계산할 연산자 인덱스 리스트 반환
     def calc_position(count, length): 
-        # count : 몇 개의 괄호를 칠 지 받고
-        # length : 총 연산식 길이
-        # 중복 없이 괄호 위치를 반환
+        # input
+        #   - count : 몇 개의 괄호를 칠 지 (int)
+        #   - length : 총 연산식 길이 (int)
+        # output : 중복 없고, 연속되지 않은 연산자 위치 리스트 (list)
+
         result = []
         # 연산자 위치 인덱스 리스트
         calc_list = [ x for x in range(length)  if x%2 ==1 ]
@@ -116,8 +129,7 @@ def solution(number, line):
     
         num += 1
     value = calculation( line) # 괄호 아무것도 치지 않고 계산한 경우
-    if max_output < value:
-        max_output = value
+    if max_output < value:  max_output = value
 
     return max_output
 
