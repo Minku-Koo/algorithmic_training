@@ -12,7 +12,7 @@ def solution(number):
         for num in numbers: # 다음 올 수 있는 숫자 반복
             permute.append(num) # 순열에 숫자 추가
             new_number = numbers[:]
-            # 다음에 올 수 있는 숫자에서, 현재 숫자 제거 
+            # 다음에 올 수 있는 숫자에서, 현재 숫자 제거
             new_number.remove(num) 
             dfs(new_number) # DFS 재귀
             permute.pop() # 현재 숫자 제거
@@ -24,7 +24,7 @@ def solution(number):
     return result
 
 if __name__ == "__main__":
-    number = [3,5,2,8]
+    number = [3,5,2]
     result = solution(number)
     print("Count Permutation:", len(result))
     print("Permutation:", result)
