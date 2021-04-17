@@ -31,7 +31,9 @@ def solution(plans):
             root = []
     
     # 알파벳 순서 정렬
+    print(result)
     result = sorted(result, key = lambda x : x[0])[0]
+    print(result)
     sortedResult = [ result[0][0] ]
     
     # 경유지 하나씩 입력
