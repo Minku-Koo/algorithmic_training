@@ -48,7 +48,7 @@ class Tetromino:
             for x in range(M):
                 if y==0 or x==0 or y==N-1 or x==M-1: #시간 단축 위한 조건
                     # 4개의 모서리일 경우 -> 건너뜀
-                    if (y ==0 and  x==0) or \ 
+                    if (y ==0 and  x==0) or \
                     (y==N-1 and x==M-1)  or \
                     (y==0 and x==M-1)  or \
                     (y==N-1 and x==0) : continue
