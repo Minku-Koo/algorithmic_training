@@ -37,6 +37,7 @@ class BabyShark:
         else: return True
     
     # 현재 상어 위치 <-> 해당 물고기 간 거리 계산
+    # BFS 이용하여 계산
     def calcDistance(self, root, y_, x_):
         dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
         check = []
@@ -125,4 +126,10 @@ if __name__ == "__main__":
         if distance == 0: err = True # 거리 = 0 --> 에러
         baby_shark.moveShark(point, distance, err) # 상어 이동
     print(baby_shark.move) # 이동 횟수 ()= 이동 시간) 출력
-    
+
+    '''
+    # 반례 확인할 수 있는 곳
+    # https://www.acmicpc.net/board/view/49232
+    # https://www.acmicpc.net/board/view/56644
+
+    '''
