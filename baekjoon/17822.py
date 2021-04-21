@@ -1,5 +1,5 @@
 """
-Date : 21.04.21
+Date : 21.04.22
 Problems : https://www.acmicpc.net/problem/17822
 Title : 원판 돌리기
 """
