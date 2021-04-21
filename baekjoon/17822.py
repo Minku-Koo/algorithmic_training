@@ -12,150 +12,80 @@ class Circle:
 
     # x번째 판 회전해주는 함수
     def moving(self, x, d, k):
-        # print("x", x)
-        new_map = self.map[:][x-1]
+        new_map = self.map[:][x-1] #해당 원 가지고오기
         if d == 0: #시계방향
-            for _ in range(k):
-                temp = new_map.pop()
-                new_map.insert(0, temp)
+            for _ in range(k): # x 배수, k 번 회전
+                temp = new_map.pop() # 제일 마지막 원소
+                new_map.insert(0, temp) # 제일 앞으로
         else: #반시계 방향
-            # new_map = new_map[k:] + new_map[:k]
             for _ in range(k):
-                temp = new_map.pop(0)
-                new_map.append(temp)
-        self.map[x-1] = new_map
+                temp = new_map.pop(0) # 제일 앞 원소
+                new_map.append(temp) # 제일 마지막으로
+        self.map[x-1] = new_map # 원판에 입력
         return
 
     # 인접 숫자 지우기
     def eraseNum(self):
-        # print(">> do erase")
-        result = []
-        check = []
         
-        def dfs(y, x,  before = 0, dir=0):
-            # if 0>y or y>self.N-1: return
-            # if 0>x or x>self.M-1: return
-            # if len(check)>100: return check
-            
-            number = self.map[y][x]
-            # print(y, x, number)
-            
-            if number == 0: return
-            if (y, x) in check: return
-            if number != before: return
-            
-            
-            check.append((y, x))
-            # print("erase num:", y, x)
-            # self.map[y][x] = 0
-            if dir!=2 and y<self.N -1 :
-                dfs(y+1, x,  before = number, dir=1)
-            if dir!=1 and y>0 :
-                dfs(y-1, x,  before = number, dir=2)
-            if dir!=4 and x<self.M-1 :
-                dfs(y, x+1, before = number, dir=3)
-            if dir!=3 and x >0 :
-                dfs(y, x-1,  before = number, dir=4)
-
-
-            return check
-
-        def sameNum():
-            sameNumbers = []
+        def sameNum(): # 인접한 숫자 찾는 함수
+            sameNumbers = [] # 인접한 숫자 위치 리스트
             for y in range(len(self.map)):
                 for x in range(len(self.map[0])):
                     number = self.map[y][x]
-                    if number == 0: continue
-                    # 이미 들어가있는지 체크할 필요?
+                    if number == 0: continue # 0이면 제외
+                    
                     if  y<self.N -1 :
-                        if self.map[y+1][x] == number:
+                        if self.map[y+1][x] == number: # 상
                             sameNumbers.append( (y+1, x) )
                     if  y>0 :
-                        if self.map[y-1][x] == number:
+                        if self.map[y-1][x] == number: # 하
                             sameNumbers.append( (y-1, x) )
 
                     if  x>0 :
-                        if self.map[y][x-1] == number:
+                        if self.map[y][x-1] == number: # 좌
                             sameNumbers.append( (y, x-1) )
 
                         if x==self.M-1:
-                            if self.map[y][0] == number:
+                            if self.map[y][0] == number: # 우
                                 sameNumbers.append( (y, 0) )
 
                     if  x<self.M-1 :
-                        if self.map[y][x+1] == number:
+                        if self.map[y][x+1] == number: # 양 옆 
                             sameNumbers.append( (y, x+1) )
 
                         if x==0:
-                            if self.map[y][self.M-1] == number:
+                            if self.map[y][self.M-1] == number: # 양 옆
                                 sameNumbers.append( (y, self.M-1) )
 
-            return list(set(sameNumbers))
+            return list(set(sameNumbers)) # 중복 제거 후 반환
                     
-
-        ischange = False
-        # newMap = [ [x for x in line] for line in self.map]
-        newMap = [ line[:] for line in self.map]
-
-        # DFS 말고, 가로 전부 비교 + 새로 전부 비교로 변경
-        # 새로운 맵 생성해서, 기존 맵 + 뉴 맵에 이제 0 채워넣고 나중에 기존 맵에 복사
-        '''
-        for y in range(self.N):
-            for x in range(self.M):
-                # print("y",y,"/ x", x, "bef",self.map[y][x])
-                numb = self.map[y][x]
-                if numb==0: continue
-                # import time
-                # st = time.time()
-
-                same = dfs(y, x, before =numb)
-                # same = sameNum()
-
-
-                # print("dfs time", time.time()-st)
-                if same == None: same = []
-                if x == 0:# and self.map[y][x]!=0:
-                    if numb == self.map[y][-1]:
-                        same.append( (y, self.M-1) )
-                        same.append( (y, 0) )
-                if x == self.M-1:# and self.map[y][x]!=0:
-                    if numb == self.map[y][0]:
-                        same.append( (y, 0) )
-                        same.append( (y, self.M-1) )
-                # if same != []:print("same", same)
-                if  len(same)>1:
-                    ischange = True
-                    for i,j in same: 
-                        # self.map[i][j] = 0
-                        newMap[i][j] = 0
-                    
-                check = []
-        '''
-        same = sameNum()
-        if same == None: same = []
-        if  len(same)>1:
-            ischange = True
-            for i,j in same: 
+        same = sameNum() # 인접한 숫자 위치 받아옴
+        
+        if  len(same)>1: # 인접한 숫자가 있다면
+            for i, j in same: 
+                # 0으로 바꾸어줌
                 self.map[i][j] = 0
         
-        if not ischange:
-            sumMap = 0
-            count = 0
+        else: # 인접한 숫자가 없다면
+            sumMap, count = 0, 0
             for line in self.map: 
+                # 0 개수 제외하고 카운트
                 count += self.M - line.count(0)
+                # 총 합 계산
                 sumMap += sum(line)
-
-            if sumMap ==0: average = 0
-            else: average = sumMap / count
+            
+            # 총 합이 0이라면
+            if sumMap ==0: average = 0 # 평균 0
+            else: average = sumMap / count # 평균 계산
 
             for y in range(self.N):
                 for x in range(self.M):
                     number = self.map[y][x]
-                    if number == 0: continue
-                    if number < average:
-                        self.map[y][x] += 1
-                    elif number > average:
-                        self.map[y][x] -= 1
+                    if number == 0: continue # 0 제외
+                    if number < average: # 평균보다 작으면
+                        self.map[y][x] += 1 # +1
+                    elif number > average: # 평균보다 크면
+                        self.map[y][x] -= 1 # -1
                         
         return 
 
@@ -167,17 +97,17 @@ if __name__ == "__main__":
     orders = []
     for _ in range(T): orders.append(list(map(int, input().split())))
 
-    circle = Circle(N, M, T, maps, orders)
+    circle = Circle(N, M, T, maps, orders) # 클래스 선언
     
-    for x, d, k in orders:
-        max_ = N // x
-        for m in range(1, max_+1):
-            circle.moving(x*m, d, k)
-        circle.eraseNum()
+    for x, d, k in orders: # 명령 전달
+        max_ = N // x # 실행 횟수
+        for m in range(1, max_+1): 
+            circle.moving(x*m, d, k) # 원판 움직임
+        circle.eraseNum() # 인접 숫자 지우기
         
-    
     result = 0
-    for j in circle.map: result += sum(j) 
+    # 총 합 계산
+    for j in circle.map: result += sum(j)  
     print(result)
     
     
