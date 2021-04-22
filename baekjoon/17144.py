@@ -1,7 +1,7 @@
 """
 Date : 21.04.22
 Problems : https://www.acmicpc.net/problem/17144
-Title : 미세먼지 안녕! 0600
+Title : 미세먼지 안녕!
 """
 
 class Dust:
