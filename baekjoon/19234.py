@@ -65,27 +65,23 @@ class AdultShark:
                 # 다른 냄새
                 elif self.smellMap[y-1][x][0] > 0:  goal_other.append(num)
                 
-
             if y < self.n -1: # 아래
                 num = 2
                 if self.smellMap[y+1][x][0] == 0 : goal_none.append(num)
                 if self.smellMap[y+1][x][0] == shark_num: goal_mine.append(num)
                 elif self.smellMap[y+1][x][0] > 0:  goal_other.append(num)
                 
-
             if x > 0: # 좌
                 num = 3
                 if self.smellMap[y][x-1][0] == 0 : goal_none.append(num)
                 if self.smellMap[y][x-1][0] == shark_num: goal_mine.append(num)
                 elif self.smellMap[y][x-1][0] > 0:  goal_other.append(num)
                 
-
             if x < self.n -1: # 우
                 num = 4
                 if self.smellMap[y][x+1][0] == 0 : goal_none.append(num)
                 if self.smellMap[y][x+1][0] == shark_num: goal_mine.append(num)
                 elif self.smellMap[y][x+1][0] > 0:  goal_other.append(num)
-
 
             goal = []
             if goal_none != []: # 아무 냄새 없는 곳 존재하면
@@ -100,9 +96,9 @@ class AdultShark:
             newDir = 0 # 이동할 방향
             # 현재 방향 고려한 우선순위 리스트 반환
             dir_first = self.checkSharkMoveFisrt( shark_num)
-            for d in dir_first:
-                if d in goal: # 갈 수 있는 방향 중 우선순위 높은 곳
-                    newDir = d
+            for direction in dir_first:
+                if direction in goal: # 갈 수 있는 방향 중 우선순위 높은 곳
+                    newDir = direction
                     break
 
             # 상어 위치 재설정
@@ -121,9 +117,9 @@ class AdultShark:
             for x in range(len(self.smellMap[0])):
                 
                 if (y, x) in shark_loc: # 상어가 있으면
-                    for s in self.shark: 
-                        if (y, x) == self.shark[s]: # 상어 번호 확인
-                            self.smellMap[y][x] = (s , self.k) 
+                    for sharkLoc in self.shark: 
+                        if (y, x) == self.shark[sharkLoc]: # 상어 번호 확인
+                            self.smellMap[y][x] = (sharkLoc , self.k) 
                 elif self.smellMap[y][x][0] == 0: # 냄새가 없으면
                     continue
                 
@@ -152,10 +148,6 @@ class AdultShark:
                 same_shark.append(self.shark[sharkNum])
         return
 
-
-
-
-
 if __name__ == "__main__":
     n, m, k = list(map(int, input().split()))
     maps = []
@@ -168,6 +160,7 @@ if __name__ == "__main__":
     shark_move_first = []
     for _ in range(m*4): shark_move_first.append(list( map(int, input().split()) ) )
 
+    # --------
 
     sharks = AdultShark(n, m, k, maps, shark_dir, shark_move_first)
     
