@@ -1,6 +1,6 @@
 """
-Date : 21.04.23
-Problems : https://www.acmicpc.net/problem/5373
+Date : 21.04.24
+Problems : https://www.acmicpc.net/problem/17142
 Title : 연구소3
 """
 
@@ -12,7 +12,6 @@ class Laboratory:
         self.virus, self.wall = [], []
         for y in range(n):
             for x in range(n):
-                # if lab[y][x] == 1: self.wall.append( (y, x) )
                 if lab[y][x] == 2: self.virus.append( (y, x) )
 
     # 바이러스 조합 구하기
@@ -60,7 +59,7 @@ class Laboratory:
     
     # 바이러스 퍼지는 시간 구하기
     def expandVirus(self, combine, newLab, minVal):
-        newLab = newLab[:]
+        # newLab = newLab[:]
 
         def bfs(combine, newLab, minVal):
             queue = []
@@ -71,21 +70,36 @@ class Laboratory:
                 newLab[ com[0] ][com[1] ] = 1
             # for l in newLab: print(l)
             # print("**>"*20)
-           
+            plus = [[-1,1,0,0] ,[0,0,-1,1]]
+            isout = False
+            cont = 1
             while queue:
+                cont += 1
                 y, x = queue.pop(0)
-                # if y<0 or x<0 : return
-                # if y>=self.n-1 or x>=self.n-1: return
-
                 vir = newLab[y][x]
+                # check = list(set(check))
+                # y_, x_ = y-1, x
+                # if (y_, x_) not in check:
+                for i in range(4):
+                    y_, x_ = y + plus[0][i], x + plus[1][i]
+                    if y_<0 or x_<0 or x_>self.n-1 or y_>self.n-1: continue
+                    if (y_, x_) not in check and (newLab[y_][x_] == 0 or newLab[y_][x_] == -2) :
+                        queue.append( (y_, x_) )
+                        check.append( (y_, x_) )
+                        newLab[y_][x_] = 2
 
-                y_, x_ = y-1, x
-                if (y_, x_) not in check:
-                # if y>0:
-                    # y_, x_ = y-1, x
-                    if y>0 and newLab[y_][x_] != -1 :#and newLab[y_][x_] != -2:
+                        if cont >= minVal : #and (y_, x_) not in combine :
+                            newLab[y_][x_] = minVal * minVal
+                            isout = True
+                            break 
+                if isout: break
+                '''
+                if y>0:
+                    y_, x_ = y-1, x
+                    if (y_, x_) not in check and newLab[y_][x_] != -1 :#and newLab[y_][x_] != -2:
                         # if newLab[y_][x_] == -2: newLab[y_][x_] = vir +1
                         # else: 
+                        # if newLab[y_][x_] ==0 or newLab[y_][x_] ==-2 :
                         queue.append( (y_, x_) )
                         check.append( (y_, x_) )
                         newLab[y_][x_] = vir +1
@@ -100,10 +114,11 @@ class Laboratory:
                     if (y_, x_) not in check and newLab[y_][x_] != -1 :#and newLab[y_][x_] != -2:
                         # if newLab[y_][x_] == -2: newLab[y_][x_] = vir +1
                         # else: 
-                        newLab[y_][x_] = vir +1
+                        
+                        # if newLab[y_][x_] ==0 or newLab[y_][x_] ==-2 :
                         queue.append( (y_, x_) )
                         check.append( (y_, x_) )
-
+                        newLab[y_][x_] = vir +1
                         if vir >= minVal and (y_, x_) not in combine :
                             newLab[y_][x_] = minVal * minVal
                             break 
@@ -113,10 +128,11 @@ class Laboratory:
                     if (y_, x_) not in check and newLab[y_][x_] != -1 :#and newLab[y_][x_] != -2:
                         # if newLab[y_][x_] == -2: newLab[y_][x_] = vir +1
                         # else: 
-                        newLab[y_][x_] = vir +1
+                        
+                        # if newLab[y_][x_] ==0 or newLab[y_][x_] ==-2 :
                         queue.append( (y_, x_) )
                         check.append( (y_, x_) )
-
+                        newLab[y_][x_] = vir +1
                         if vir >= minVal and (y_, x_) not in combine :
                             newLab[y_][x_] = minVal * minVal
                             break 
@@ -127,28 +143,29 @@ class Laboratory:
                         # if newLab[y_][x_] == -2: newLab[y_][x_] = vir +1
                         # else: 
                         #     newLab[y_][x_] = vir +1
-                        newLab[y_][x_] = vir +1
+                        
+                        # if newLab[y_][x_] ==0 or newLab[y_][x_] ==-2 :
                         queue.append( (y_, x_) )
                         check.append( (y_, x_) )
-
+                        newLab[y_][x_] = vir +1
                         if vir >= minVal and (y_, x_) not in combine :
                             newLab[y_][x_] = minVal * minVal
                             break 
-                
-            newLab = self.clearLab(combine, newLab)
+                '''
+            # newLab = self.clearLab(combine, newLab)
             
-            return 
+            return cont
 
 
-        bfs(combine, newLab[:], minVal)
+        count  = bfs(combine, newLab, minVal)
         
-        return newLab
+        return count  #newLab
             
 def getSum(lab):
     result = []
     for l in lab:
         if 0 in l: return 0
-        else: result.append( max(l) )
+        result.append( max(l) )
 
     return max(result)
 
@@ -168,11 +185,12 @@ if __name__ == "__main__":
     exp = time.time()
     for comb in virus_combine:
         # print("virus loc", comb)
-        newlaboratory = [ [x for x in a] for a in newLab ]
+        # newlaboratory = [ a[:] for a in newLab ]
         
-        virus_lab = laboratory.expandVirus(comb, newlaboratory, minVal)
+        sumLab = laboratory.expandVirus(comb, newLab, minVal)
+        # sumLab = getSum(virus_lab)
         
-        sumLab = getSum(virus_lab)
+        # sumLab = getSum( laboratory.expandVirus(comb, newLab, minVal) )
         if sumLab == 0: continue
         # if minVal < 100: print(minVal)
         if minVal > sumLab:
