@@ -86,8 +86,6 @@ class Laboratory:
 
             return
 
-        
-        
         for virus in self.virus:
             y, x = virus
             bfs(y, x)
