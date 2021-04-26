@@ -67,19 +67,16 @@ class Laboratory:
             for com in combine:
                 queue.append( com )
                 check.append( com )
-                newLab[ com[0] ][com[1] ] = 1
+                newLab[ com[0] ][com[1] ] = 2
             # for l in newLab: print(l)
             # print("**>"*20)
             plus = [[-1,1,0,0] ,[0,0,-1,1]]
             isout = False
-            cont = 1
+            cont = 0
             while queue:
                 cont += 1
                 y, x = queue.pop(0)
                 vir = newLab[y][x]
-                # check = list(set(check))
-                # y_, x_ = y-1, x
-                # if (y_, x_) not in check:
                 for i in range(4):
                     y_, x_ = y + plus[0][i], x + plus[1][i]
                     if y_<0 or x_<0 or x_>self.n-1 or y_>self.n-1: continue
@@ -152,7 +149,6 @@ class Laboratory:
                             newLab[y_][x_] = minVal * minVal
                             break 
                 '''
-            # newLab = self.clearLab(combine, newLab)
             
             return cont
 
