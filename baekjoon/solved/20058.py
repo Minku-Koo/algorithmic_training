@@ -124,7 +124,7 @@ if __name__ == "__main__":
     place = []
     for _ in range(2**n): place.append(list(map(int, input().split())))
     order = list(map(int, input().split()))
-
+    
     wizard = WizardFirestorm(n, q, place)
     
     for size in order:
