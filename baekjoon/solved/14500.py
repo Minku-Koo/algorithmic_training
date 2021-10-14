@@ -3,7 +3,7 @@ Date : 21.04.18
 Problems : https://www.acmicpc.net/problem/14500
 Title : 테트로미노
 """
-
+#DFS
 # Python3로 실행 시, 시간 초과로 실패
 ## PyPy3로 실행 시, 성공
 
