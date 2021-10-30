@@ -20,7 +20,6 @@ def solution( p1, p2, fam ):
         if tmp==-1: break
         else: parent[0] = tmp
         
-        
     while True:
         tmp  = getParent(parent[1])
         if tmp==-1: break
