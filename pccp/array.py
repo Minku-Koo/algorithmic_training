@@ -5,10 +5,11 @@ Array
 def solution(fees, records):
     answer = []
     notOutCarNum = []
-    carTimeDict = {} # carNumber : [sumTime, timeLog]
+    carTimeDict = {} # carNumber : [(int)sumTime, (str)IN time]
     endTime = '23:59'
     baseTime, basePay, addTime, addPay = fees
 
+    # min 시간 입력 -> 금액 계산
     def calcPay(time):
         if time <= baseTime:
             return basePay
@@ -19,6 +20,7 @@ def solution(fees, records):
             carAddPay = (int(carAddTime / addTime) + 1) * addPay
         return carAddPay + basePay
 
+    # str IN OUT 입력 -> int 시간 계산 (min)
     def calcTime(inTime, outTime):
         resultMin = 0
         inHour, inMin = map(int, inTime.split(":"))
@@ -40,17 +42,19 @@ def solution(fees, records):
         
         if carInOut == 'OUT':
             carTimeDict[carNum][0] += calcTime(carTimeDict[carNum][1], carTime)
-            carTimeDict[carNum][1] = ''
+            # 주차장에 남아있는 차량 번호 삭제
             notOutCarNum.remove(carNum)
         else:
             carTimeDict[carNum][1] = carTime
+            # 주차장에 남아있는 차량 번호 추가
             notOutCarNum.append(carNum)
 
     for carNum in notOutCarNum:
+        # 남아있는 차량은 end time으로 시간 계산
         carTimeDict[carNum][0] += calcTime(carTimeDict[carNum][1], endTime)
 
     for car in sorted(carTimeDict.keys()):
+        # 차량 번호로 오름차순 및 요금 계산
         answer.append(calcPay(carTimeDict[car][0]))
             
-    # 오름차순 정렬
     return answer
