@@ -1,4 +1,5 @@
 ﻿// https://www.acmicpc.net/problem/number
+// unclear
 
 #include <iostream>
 #include <stdio.h>
@@ -9,7 +10,10 @@
 using namespace std;
 
 int main(){
-	cin >> N >> M;
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	
+	cin >> N;
 	
 	return 0;
 }
