@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <queue>
 #include <iostream>
 
 #define MM 1000001
@@ -143,7 +142,6 @@ int main() {
 
 	string cmd;
 	int from, to, ans;
-	queue<int> qq; // 결과 한번에 출력을 위한 큐
 	for (register int i = 0; i < fixCount; ++i) {
 		cin >> cmd >> from;
 		// 명령어 -> 해당 함수 실행
@@ -160,15 +158,8 @@ int main() {
 			else
 				ans = remPrev(from);
 		}
-		// 한번에 출력을 위해 queue에 저장
-		qq.push(ans);
-	}
-	
-	// queue 출력
-	while (!qq.empty()) {
-		int q = qq.front();
-		qq.pop();
-		printf("%d\n", q);
+		
+		printf("%d\n", ans);
 	}
 
 	return 0;
